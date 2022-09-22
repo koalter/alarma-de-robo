@@ -1,5 +1,5 @@
 <ion-content>
-  <form class="">
+  <form>
     <section class="Container container mt-4 p-4">
       <ion-text color="light">
         <h1 class="mb-4">Ingrese su identificación</h1>
@@ -8,9 +8,20 @@
       <input type="password" class="Input shadow mb-2 py-2 form-control" id="floatingPassword" placeholder="Contraseña" [(ngModel)]="this.clave" name="clave">
       <ion-button mode="ios" (click)="iniciarSesion()" shape="round" strong="true" size="large" expand="block" color="light" class="Submit mt-3 mb-5 rounded-5">Iniciar sesión</ion-button>
       
-      <ion-button mode="ios" (click)="llenarCampos('test1@example.com', 'password')" shape="round" expand="block" class="my-3 rounded-5" color="light">Ingresar como test1</ion-button>
-      <ion-button mode="ios" (click)="llenarCampos('test2@example.com', 'password')" shape="round" expand="block" class="my-3 rounded-5" color="light">Ingresar como test2</ion-button>
-      <ion-button mode="ios" (click)="llenarCampos('test3@example.com', 'password')" shape="round" expand="block" class="my-3 rounded-5" color="light">Ingresar como test3</ion-button>
+      <div class="text-center">
+        <ion-chip (click)="llenarCampos('test1@example.com', 'password')">
+          <ion-icon name="person-circle-sharp"></ion-icon>
+          <ion-label>usuario 1</ion-label>
+        </ion-chip>
+        <ion-chip (click)="llenarCampos('test2@example.com', 'password')">
+          <ion-icon name="person-circle-sharp"></ion-icon>
+          <ion-label>usuario 2</ion-label>
+        </ion-chip>
+        <ion-chip (click)="llenarCampos('test3@example.com', 'password')">
+          <ion-icon name="person-circle-sharp"></ion-icon>
+          <ion-label>usuario 3</ion-label>
+        </ion-chip>
+      </div>
     </section>
 
   </form>
