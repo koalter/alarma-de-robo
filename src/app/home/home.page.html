@@ -1,14 +1,24 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Home</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <div id="container">
-    <div>
-      <strong>Página en construcción</strong>
-    </div>
-    <ion-button (click)="logout()" fill="clear" color="primary">Volver</ion-button>
-  </div>
+  <ion-grid class="h-100">
+    <ion-row class="ion-align-items-center h-100">
+      <ion-col size="12">
+        <ion-button
+          (click)="toggleAlarm()"
+          size="large"
+          expand="block"
+          shape="round"
+          class="bigger ion-padding"
+          [ngClass]="{ 'active': isActive, 'inactive': !isActive }"
+        >
+          <ion-icon name="power-outline"></ion-icon>
+          <!-- {{ isActive ? 'Desactivar' : 'Activar' }} alarma -->
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-fab slot="fixed" horizontal="start" vertical="bottom">
+    <ion-fab-button (click)="logout()" color="tertiary" class="ion-margin">
+      <ion-icon name="log-out-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

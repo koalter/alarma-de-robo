@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import { SplashScreenComponent } from './splash-screen/splash-screen.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: SplashScreenComponent
+  },
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
@@ -14,11 +19,6 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule),
     canActivate: [AuthGuard],
     data: { authGuardPipe: () => redirectLoggedInTo(['home']) }
-  },
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
   },
 ];
 

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SplashScreen } from '@capacitor/splash-screen';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -7,13 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
 
-  showSplashScreen: boolean = true;
-
-  constructor() {}
+  constructor(private platform: Platform) {}
 
   ngOnInit(): void {
-    setInterval(() => {
-      this.showSplashScreen = false;
-    }, 3000);
+    this.platform.ready().then(() => {
+      SplashScreen.hide();
+    });
   }
 }

@@ -25,3 +25,20 @@
 #container a {
   text-decoration: none;
 }
+
+.bigger {
+  --padding-top: 18vh;
+  --padding-bottom: 18vh;
+}
+
+.active {
+  --background: var(--ion-color-success);
+}
+
+.inactive {
+  --background: var(--ion-color-danger);
+}
+
+ion-fab {
+  margin-bottom: var(--ion-safe-area-bottom, 0);
+}
