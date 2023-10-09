@@ -50,6 +50,7 @@ export class HomePage {
           type: 'password'
         }
       ],
+      backdropDismiss: false,
       buttons: [
         {
           text: 'OK',

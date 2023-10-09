@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ScreenOrientation } from '@capacitor/screen-orientation';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Platform } from '@ionic/angular';
 
@@ -13,6 +14,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.platform.ready().then(() => {
+      ScreenOrientation.lock({
+        orientation: 'portrait'
+      });
       SplashScreen.hide();
     });
   }

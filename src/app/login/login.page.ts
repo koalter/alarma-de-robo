@@ -11,6 +11,7 @@ import { ToastController } from '@ionic/angular';
 export class LoginPage implements OnInit {
 
   form!: FormGroup;
+  id?: number;
 
   constructor(private router: Router,
     private toastController: ToastController,
@@ -34,5 +35,9 @@ export class LoginPage implements OnInit {
         color: 'danger'
       }).then(toast => toast.present());
     }
+  }
+
+  setTestId(id: number) {
+    this.id = id;
   }
 }

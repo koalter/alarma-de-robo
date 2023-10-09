@@ -1,48 +1,44 @@
-<ion-card>
-  <ion-card-content>
-    <form [formGroup]="form" (ngSubmit)="submit()">
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <ion-card>
+    <ion-card-header class="ion-no-padding ion-padding-horizontal ion-padding-top">
+      <ion-card-title color="primary">
+        Correo electrónico
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
       <ion-input
-        label="Correo"
-        labelPlacement="fixed"
         type="email"
         inputmode="email"
         placeholder="j.perez@sistemas-utnfra.com.ar"
         errorText="Ingrese un correo válido"
         formControlName="email"
-        class="ion-margin-bottom"
       ></ion-input>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header class="ion-no-padding ion-padding-horizontal ion-padding-top">
+      <ion-card-title color="primary">
+        Contraseña
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
       <ion-input
-        label="Contraseña"
-        labelPlacement="fixed"
         type="password"
         inputmode="text"
         errorText="Ingrese una contraseña"
         formControlName="password"
-        class="ion-margin-bottom"
       ></ion-input>
+    </ion-card-content>
+  </ion-card>
 
-      <ion-button
-        color="success"
-        expand="block"
-        type="submit"
-        class="ion-margin-bottom"
-        [disabled]="form.invalid"
-        size="large"
-        shape="round"
-      >
-        Iniciar sesión
-        <ion-icon slot="end" name="log-in-outline"></ion-icon>
-      </ion-button>
-      <ion-button
-        size="large"
-        color="primary"
-        expand="block"
-        shape="round"
-        (click)="fill()"
-      >
-        Llenar campos
-        <ion-icon slot="end" name="document-text-outline"></ion-icon>
-      </ion-button>
-    </form>
-  </ion-card-content>
-</ion-card>
+  <ion-button
+    color="primary"
+    type="submit"
+    class="ion-margin"
+    [disabled]="form.invalid"
+    size="large"
+  >
+    Ingresar
+    <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+  </ion-button>
+</form>
