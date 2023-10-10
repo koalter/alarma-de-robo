@@ -11,8 +11,9 @@
           [ngClass]="{ 'active': isActive, 'inactive': !isActive }"
         >
           <ion-icon name="power-outline"></ion-icon>
-          <!-- {{ isActive ? 'Desactivar' : 'Activar' }} alarma -->
         </ion-button>
+        <ion-text color="light">{{ 'x:' + x }} {{ 'y:' + y }} {{ 'z:' + z }} {{ 'trigger:' + trigger }}</ion-text>
+        <ion-text color="light">{{ alarmType ? 'alarmType:' + alarmType : '' }}</ion-text>
       </ion-col>
     </ion-row>
   </ion-grid>
