@@ -4,6 +4,7 @@ import { AlertController, LoadingController, ToastController } from '@ionic/angu
 import { AuthService } from '../services/auth.service';
 import { CapacitorFlash } from '@capgo/capacitor-flash';
 import { Haptics } from '@capacitor/haptics';
+import { NativeAudio } from '@capacitor-community/native-audio';
 
 @Component({
   selector: 'app-home',
@@ -14,10 +15,6 @@ export class HomePage implements OnInit {
 
   isActive: boolean = false;
   trigger: boolean = false;
-  x: any;
-  y: any;
-  z: any;
-
   alarmType: 'left' | 'right' | 'vertical' | 'horizontal' | undefined;
 
   constructor(
@@ -30,17 +27,18 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     const accelerometer = (navigator as any).accelerometer;
+    this.loadSounds();
     accelerometer.watchAcceleration(
       (acceleration: any) => {
-        this.x = (acceleration.x as number).toFixed(0);
-        this.y = (acceleration.y as number).toFixed(0);
-        this.z = (acceleration.z as number).toFixed(0);
+        const x = parseInt((acceleration.x as number).toFixed(0));
+        const y = parseInt((acceleration.y as number).toFixed(0));
+        const z = parseInt((acceleration.z as number).toFixed(0));
 
-        if (this.isActive && this.z == 10 && (this.x == 0 || this.y == 0)) {
+        if (this.isActive && z == 10 && (x == 0 || y == 0)) {
           this.trigger = true;
         }
 
-        this.handleAlarm();
+        this.handleAlarm(x, y, z);
       },
       () => {
         console.log("error on accelerometer");
@@ -49,6 +47,29 @@ export class HomePage implements OnInit {
         frequency: 500
       }
     );
+  }
+
+  async loadSounds() {
+    await NativeAudio.preload({
+      assetPath: 'public/assets/sounds/alarm_left.mp3',
+      assetId: 'left'
+    });
+    await NativeAudio.preload({
+      assetPath: 'public/assets/sounds/alarm_right.mp3',
+      assetId: 'right'
+    });
+    await NativeAudio.preload({
+      assetPath: 'public/assets/sounds/alarm_vertical.mp3',
+      assetId: 'vertical'
+    });
+    await NativeAudio.preload({
+      assetPath: 'public/assets/sounds/alarm_horizontal.mp3',
+      assetId: 'horizontal'
+    });
+    await NativeAudio.preload({
+      assetPath: 'public/assets/sounds/alarm_fail.mp3',
+      assetId: 'fail'
+    });
   }
 
   async logout() {
@@ -61,6 +82,7 @@ export class HomePage implements OnInit {
       await loadingElement.dismiss();
   
       if (result) {
+        this.resetAlarm();
         this.isActive = false;
         this.router.navigate(['login']);
       }
@@ -98,6 +120,10 @@ export class HomePage implements OnInit {
                 color: 'danger'
               }).then(toast => toast.present());
               Haptics.vibrate({ duration: 5000 });
+              NativeAudio.play({ assetId: 'fail' })
+                .then(() => {
+                  setTimeout(() => NativeAudio.stop({ assetId: 'fail' }), 5000);
+                })
               CapacitorFlash.switchOn({ intensity: 1 })
                 .then(() => {
                   setTimeout(() => CapacitorFlash.switchOff(), 5000);
@@ -126,15 +152,22 @@ export class HomePage implements OnInit {
     }
   }
 
-  handleAlarm() {
+  handleAlarm(x: number, y: number, z: number) {
     if (this.trigger) {
-      if (this.z != 10) {
-        if (this.x < -2 && this.alarmType !== 'right') {
+      if (z != 10) {
+        if (x < -2 && this.alarmType !== 'right') {
           this.alarmType = 'right';
-        } else if (this.x > 2 && this.alarmType !== 'left') {
+          NativeAudio.play({ assetId: 'right' })
+            .then(() => setInterval(() => NativeAudio.stop({ assetId: 'right' }), 5000));
+        } else if (x > 2 && this.alarmType !== 'left') {
           this.alarmType = 'left';
-        } else if ((this.y < -2 || this.y > 2) && this.alarmType !== 'vertical') {
+          NativeAudio.play({ assetId: 'left' });
+        } else if ((y < -2 || y > 2) && this.alarmType !== 'vertical') {
           this.alarmType = 'vertical';
+          NativeAudio.play({ assetId: 'vertical' })
+            .then(() => {
+              setTimeout(() => NativeAudio.stop({ assetId: 'vertical' }), 5000);
+            });
           CapacitorFlash.switchOn({ intensity: 1 })
             .then(() => {
               setTimeout(() => CapacitorFlash.switchOff(), 5000);
@@ -143,6 +176,8 @@ export class HomePage implements OnInit {
       } else {
         if (this.alarmType == 'left' || this.alarmType == 'right' || this.alarmType == 'vertical') {
           this.alarmType = 'horizontal';
+          NativeAudio.play({ assetId: 'horizontal' })
+            .then(() => setTimeout(() => NativeAudio.stop({ assetId: 'horizontal' }), 5000));
           Haptics.vibrate({ duration: 5000 });
         }
       }
@@ -156,6 +191,9 @@ export class HomePage implements OnInit {
       if (result.value) {
         CapacitorFlash.switchOff();
       }
-    })
+    });
+    if (this.alarmType) {
+      NativeAudio.stop({ assetId: this.alarmType });
+    }
   }
 }
