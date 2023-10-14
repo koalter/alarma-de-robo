@@ -1,20 +1,13 @@
 <ion-content [fullscreen]="true">
-  <ion-grid class="h-100">
-    <ion-row class="ion-align-items-center h-100">
-      <ion-col size="12">
-        <ion-button
-          (click)="toggleAlarm()"
-          size="large"
-          expand="block"
-          shape="round"
-          class="bigger ion-padding"
-          [ngClass]="{ 'active': isActive, 'inactive': !isActive }"
-        >
-          <ion-icon name="power-outline"></ion-icon>
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-button
+    (click)="toggleAlarm()"
+    size="large"
+    expand="full"
+    class="h-100 ion-no-margin"
+    [ngClass]="{ 'active': isActive, 'inactive': !isActive }"
+  >
+    <ion-icon name="power-outline"></ion-icon>
+  </ion-button>
   <ion-fab slot="fixed" horizontal="start" vertical="top">
     <ion-fab-button (click)="logout()" color="primary" class="ion-margin">
       <ion-icon name="close-outline"></ion-icon>

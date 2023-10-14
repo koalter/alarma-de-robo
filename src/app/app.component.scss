@@ -1,0 +1,10 @@
+#background {
+  background: url('../assets/bg-image.jpg') no-repeat center center / cover;
+  height: 100%;
+  width: 100%;
+  -webkit-filter: blur(8px);
+  -moz-filter: blur(8px);
+  -o-filter: blur(8px);
+  -ms-filter: blur(8px);
+  filter: blur(8px);
+} 

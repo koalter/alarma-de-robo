@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, Platform, ToastController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { CapacitorFlash } from '@capgo/capacitor-flash';
 import { Haptics } from '@capacitor/haptics';
 import { NativeAudio } from '@capacitor-community/native-audio';
+import { Logger } from '../services/logger.service';
 
 @Component({
   selector: 'app-home',
@@ -22,31 +23,37 @@ export class HomePage implements OnInit {
     private router: Router,
     private loadingController: LoadingController,
     private toastController: ToastController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private platform: Platform,
+    private logger: Logger
   ) {}
 
   ngOnInit() {
     const accelerometer = (navigator as any).accelerometer;
-    this.loadSounds();
-    accelerometer.watchAcceleration(
-      (acceleration: any) => {
-        const x = parseInt((acceleration.x as number).toFixed(0));
-        const y = parseInt((acceleration.y as number).toFixed(0));
-        const z = parseInt((acceleration.z as number).toFixed(0));
-
-        if (this.isActive && z == 10 && (x == 0 || y == 0)) {
-          this.trigger = true;
+    try {
+      this.loadSounds();
+      accelerometer.watchAcceleration(
+        (acceleration: any) => {
+          const x = parseInt((acceleration.x as number).toFixed(0));
+          const y = parseInt((acceleration.y as number).toFixed(0));
+          const z = parseInt((acceleration.z as number).toFixed(0));
+  
+          if (this.isActive && z == 10 && (x == 0 || y == 0)) {
+            this.trigger = true;
+          }
+  
+          this.handleAlarm(x, y, z);
+        },
+        () => {
+          console.log("error on accelerometer");
+        },
+        {
+          frequency: 500
         }
-
-        this.handleAlarm(x, y, z);
-      },
-      () => {
-        console.log("error on accelerometer");
-      },
-      {
-        frequency: 500
-      }
-    );
+      );
+    } catch (e: any) {
+      this.logger.logError(e);
+    }
   }
 
   async loadSounds() {
@@ -103,6 +110,7 @@ export class HomePage implements OnInit {
           type: 'password'
         }
       ],
+      translucent: true,
       backdropDismiss: false,
       buttons: [
         {
