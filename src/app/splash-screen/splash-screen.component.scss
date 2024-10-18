@@ -5,10 +5,41 @@ ion-content {
 
 h1 {
   line-height: 0;
+  font-size: 3rem;
+}
+
+.top-text {
+  font-size: 7rem;
+  position: absolute;
+  top: 4rem;
+  left: 1rem;
+}
+
+.bottom-text-left, .bottom-text-center, .bottom-text-right {
+  position: absolute;
+  bottom: 5rem;
+}
+
+.bottom-text-left {
+  position: absolute;
+  bottom: 12rem;
+  left: 1rem;
+}
+
+.bottom-text-center {
+  position: absolute;
+  bottom: 9rem;
+  left: 5rem;
+}
+
+.bottom-text-right {
+  position: absolute;
+  bottom: 6rem;
+  right: 1rem;
 }
 
 img {
-  width: 40%;
+  width: 25%;
 }
 
 .slide-out-blurred-right{-webkit-animation:slide-out-blurred-right .45s cubic-bezier(.755,.05,.855,.06) 1s both;animation:slide-out-blurred-right .45s cubic-bezier(.755,.05,.855,.06) 2s both}
